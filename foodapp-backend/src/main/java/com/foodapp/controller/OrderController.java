@@ -114,6 +114,25 @@ public class OrderController {
 		}
 		return new ResponseEntity<List<Order>>(getOrder , HttpStatus.OK);
 	}
+	@GetMapping("/userId/{userId}")
+	public ResponseEntity<List<Order>> findByUserId(
+	        @PathVariable Integer userId)
+	        throws OrderNotFoundException {
+
+	    List<Order> orders =
+	            service.findByUserId(userId);
+
+	    if (orders.isEmpty()) {
+	        throw new OrderNotFoundException(
+	                "No orders found for user id : "
+	                        + userId);
+	    }
+
+	    return new ResponseEntity<>(
+	            orders,
+	            HttpStatus.OK);
+	}
+	
 	
 //	@GetMapping("/{userId}")
 //	public ResponseEntity<List<Order>> findByTotalAmountGreaterThan(@PathVariable Double amt) throws OrderNotFoundException{
